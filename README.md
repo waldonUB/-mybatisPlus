@@ -1,0 +1,2 @@
+# -mybatisPlus
+把springjdbcTemplate和mybatis结合起来，虽然现在已经有一个现成的mybatisPlus了，但是还是想自己做一个。
