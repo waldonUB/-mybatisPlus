@@ -1,0 +1,30 @@
+server:
+  port: 8080
+#数据库:
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/db_ak?useUnicode=true&characterEncoding=utf8&useSSL=false
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    #redis数据库索引(默认为0)
+    database: 0
+    password:
+    jedis:
+      pool:
+        #连接池最大连接数(负值代表没有限制)
+        max-active: 8
+        #连接池最大空闲连接
+        max-idle: 8
+        #连接池最小空闲连接
+        min-idle: 0
+        #连接池最大阻塞等待时间(负值代表没有限制)
+        max-wait: -1s
+    #连接超时时间(毫秒)
+    timeout: 0s
+#mybatis:
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

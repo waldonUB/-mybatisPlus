@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间对应接口的包名+类名 -->
+<mapper namespace="cn.ak.gc.domain.repository.CommonRepository">
+    <!--id是接口中的方法，结果类型如没有配置别名则应该使用全名称 -->
+    <insert id="insertVOWithPK">
+        insert into ${tableName}
+        <foreach item="item" index="index" collection="columns.keys"
+                 open="(" separator="," close=")">
+            ${item}
+        </foreach>
+        values
+        <foreach item="item" index="index" collection="columns.values"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </insert>
+    <insert id="insertVOWithoutPK">
+        insert into ${tableName}
+        <foreach item="item" index="index" collection="columns.keys"
+                 open="(" separator="," close=")">
+            <if test="item != primaryKey">
+                ${item}
+            </if>
+        </foreach>
+        values
+        <foreach item="item" index="index" collection="columns.keys"
+                 open="(" separator="," close=")">
+            <if test="item != primaryKey">
+                #{columns[${item}]}
+            </if>
+        </foreach>
+    </insert>
+    <delete id="deleteVO">
+        delete from ${tableName} where ${primaryKey} = #{columns[${primaryKey}]}
+    </delete>
+    <update id="updateVO">
+        update ${tableName} set
+        <foreach item="item" collection="columns.keys" separator=",">
+            ${item} = #{columns[${item}]}
+        </foreach>
+        where ${primaryKey} = #{columns[${primaryKey}]}
+    </update>
+    <select id="getEntities" resultType="cn.ak.gc.domain.entities.UserInfo">
+        select
+        <foreach item="item" collection="columns.keys" separator=",">
+          ${columns[item]} as ${item}
+        </foreach>
+        from
+        ${tableName}
+        <if test="params != null">
+            <where>
+                <foreach collection="params.keys" item="item" separator="and">
+                    <if test="params[item] != null">
+                        ${item} = #{params[${item}]}
+                    </if>
+                </foreach>
+            </where>
+        </if>
+    </select>
+</mapper>
