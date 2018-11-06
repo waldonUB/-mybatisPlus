@@ -1,5 +1,6 @@
 package cn.ak.gc.controller;
 
+import cn.ak.gc.commen.model.Page;
 import cn.ak.gc.domain.entities.UserInfo;
 import cn.ak.gc.service.LoginService;
 import com.alibaba.fastjson.JSONObject;
@@ -45,6 +46,12 @@ public class TestController {
     public List<UserInfo> getEntities() {
         UserInfo userInfo = new UserInfo();
         return loginService.getEntities(userInfo);
+    }
+
+    @RequestMapping("/getPageEntities")
+    public Page<UserInfo> getPageEntities() {
+        UserInfo userInfo = new UserInfo();
+        return loginService.getPageEntities(userInfo, 1 , 5);
     }
 
 }

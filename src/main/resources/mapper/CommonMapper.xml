@@ -41,7 +41,7 @@
         </foreach>
         where ${primaryKey} = #{columns[${primaryKey}]}
     </update>
-    <select id="getEntities" resultType="cn.ak.gc.domain.entities.UserInfo">
+    <select id="getEntities" resultType="map">
         select
         <foreach item="item" collection="columns.keys" separator=",">
           ${columns[item]} as ${item}
@@ -57,5 +57,26 @@
                 </foreach>
             </where>
         </if>
+    </select>
+    <select id="getPageEntities" resultType="map">
+        select
+        <foreach item="item" collection="columns.keys" separator=",">
+            ${columns[item]} as ${item}
+        </foreach>
+        from
+        ${tableName}
+        <if test="params != null">
+            <where>
+                <foreach collection="params.keys" item="item" separator="and">
+                    <if test="params[item] != null">
+                        ${item} = #{params[${item}]}
+                    </if>
+                </foreach>
+            </where>
+        </if>
+        limit ${(current - 1) * size}, ${size}
+    </select>
+    <select id="getPageCount" resultType="java.lang.Integer">
+        select count(*) from ${tableName}
     </select>
 </mapper>

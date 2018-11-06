@@ -1,5 +1,6 @@
 package cn.ak.gc.service.impl;
 
+import cn.ak.gc.commen.model.Page;
 import cn.ak.gc.commen.utils.CommonDAO;
 import cn.ak.gc.domain.entities.UserInfo;
 import cn.ak.gc.service.LoginService;
@@ -56,6 +57,11 @@ public class LoginServiceImpl implements LoginService {
         JSONObject params = new JSONObject();
 //        params.put("user_name", "更新版成吉思汗");
         return commonDAO.getEntities(vo, params);
+    }
+
+    @Override
+    public Page<UserInfo> getPageEntities(UserInfo vo, int current, int size) {
+        return commonDAO.getPageEntities(vo, null, current, size);
     }
 
 }
