@@ -47,14 +47,9 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public int saveUser() {
-        String uuid = UUID.randomUUID().toString();
+    public List<UserInfo> getLoginUsers() {
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserId(uuid);
-        userInfo.setUserName("成吉思汗");
-        userInfo.setCreationTime(new Date());
-        userInfo.setModifyTime(new Date());
-        return commonDAO.insertVOWithPK(userInfo);
+        return commonDAO.getEntitiesWithTB("sys_login_user", userInfo, null);
     }
 
 

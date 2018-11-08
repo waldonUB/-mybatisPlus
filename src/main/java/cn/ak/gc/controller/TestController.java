@@ -29,11 +29,6 @@ public class TestController {
         session.setAttribute("name", json);
     }
 
-    @RequestMapping("/saveUser")
-    public void saveUser() {
-        loginService.saveUser();
-    }
-
 
     @RequestMapping("/deleteUser")
     public void deleteUser() {

@@ -16,9 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/login")
 public class LoginController {
     @Autowired
     LoginService loginService;
@@ -41,9 +43,6 @@ public class LoginController {
         try {
             userInfo = loginService.getUserInfo(userInfo);
             if (userInfo != null) {
-                Jedis jedis = new Jedis();
-                String headImg = jedis.get("headImg" + userInfo.getUserId());
-                userInfo.setHeadImg(headImg);
                 session.setAttribute("sessionKey", userInfo);
                 loginService.deleteLoginUser(userInfo);
                 loginService.addLoginUser(userInfo);
@@ -142,13 +141,17 @@ public class LoginController {
     @RequestMapping("/modifyHeadImg")
     public ReturnModel modifyHeadImg(@RequestBody UserInfo userInfo) {
         ReturnModel model = new ReturnModel();
-        Jedis jedis = new Jedis();
+        UserInfo userInfo1 = new UserInfo();
+        userInfo1.setUserName(userInfo.getUserName());
         try {
-            jedis.set("headImg_" + userInfo.getUserId(), userInfo.getHeadImg());
+            UserInfo oldUser = loginService.getUserInfo(userInfo1);
+            oldUser.setHeadImg(userInfo.getHeadImg());
+            loginService.updateUser(oldUser);
         } catch (Exception e) {
             model.setSuccess(false);
             model.setMessage("修改失败" + e.getMessage());
         }
+        model.setData(userInfo.getHeadImg());
         model.setSuccess(true);
         return model;
     }
@@ -161,7 +164,25 @@ public class LoginController {
     @RequestMapping("/querySession")
     public ReturnModel querySession(@RequestBody UserInfo userInfo, HttpSession session) {
         ReturnModel model = new ReturnModel();
+        UserInfo sessionInfo = (UserInfo) session.getAttribute("sessionKey");
+        if (sessionInfo == null) {
+            model.setSuccess(false);
+            model.setMessage("会话失效，请重新登录");
+        }
         model.setSuccess(true);
+        return model;
+    }
+
+    /**
+     * 查看所有在线用户的信息
+     * @return 所有在线用户的信息
+     */
+    @RequestMapping("/getLoginUsers")
+    public ReturnModel getLoginUsers() {
+        ReturnModel model = new ReturnModel();
+        List<UserInfo> list = loginService.getLoginUsers();
+        model.setSuccess(true);
+        model.setData(list);
         return model;
     }
 }

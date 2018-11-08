@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间对应接口的包名+类名 -->
+<mapper namespace="cn.ak.gc.domain.repository.PermissionRepository">
+    <!--id是接口中的方法，结果类型如没有配置别名则应该使用全名称 -->
+    <select id="queryPermissionTree" resultType="map">
+        select sys_function.* from sys_function
+          inner join sys_group_permission on sys_function.pk_resource = sys_group_permission.pk_resource
+          where sys_group_permission.group_code = #{groupCode}
+          order by code
+    </select>
+</mapper>

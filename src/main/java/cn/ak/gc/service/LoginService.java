@@ -11,7 +11,7 @@ public interface LoginService {
     void deleteLoginUser(UserInfo userInfo);
     void addUser(UserInfo userInfo);
     void updateUser(UserInfo userInfo);
-    int saveUser();
+    List<UserInfo> getLoginUsers();
     int deleteUser();
     List<UserInfo> getEntities(UserInfo userInfo);
     Page<UserInfo> getPageEntities(UserInfo userInfo, int current, int size);

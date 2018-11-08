@@ -41,7 +41,7 @@
         </foreach>
         where ${primaryKey} = #{columns[${primaryKey}]}
     </update>
-    <select id="getEntities" resultType="com.alibaba.fastjson.JSONArray">
+    <select id="getEntities" resultType="com.alibaba.fastjson.JSONObject">
         select
         <foreach item="item" collection="columns.keys" separator=",">
           ${columns[item]} as ${item}

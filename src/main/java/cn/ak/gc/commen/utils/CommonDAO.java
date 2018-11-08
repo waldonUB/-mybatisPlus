@@ -57,6 +57,12 @@ public class CommonDAO<T> {
         return repository.getEntities(tableName, primaryKey, columns, params);
     }
 
+    public List<T> getEntitiesWithTB(String tableName, T vo, JSONObject params) {
+        JSONObject columns = (JSONObject) JSONObject.toJSON(vo);
+        columns.forEach((k, v) -> columns.put(k, TranslateCase.lowerCase(k)));
+        return repository.getEntities(tableName, null, columns, params);
+    }
+
     public T getEntity(T vo) throws Exception{
         Entity entity = vo.getClass().getAnnotation(Entity.class);
         String tableName = entity.tableName();
