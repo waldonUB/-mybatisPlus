@@ -41,10 +41,27 @@
         </foreach>
         where ${primaryKey} = #{columns[${primaryKey}]}
     </update>
-    <select id="getEntities" resultType="map">
+    <select id="getEntities" resultType="com.alibaba.fastjson.JSONArray">
         select
         <foreach item="item" collection="columns.keys" separator=",">
           ${columns[item]} as ${item}
+        </foreach>
+        from
+        ${tableName}
+        <if test="params != null">
+            <where>
+                <foreach collection="params.keys" item="item" separator="and">
+                    <if test="params[item] != null">
+                        ${item} = #{params[${item}]}
+                    </if>
+                </foreach>
+            </where>
+        </if>
+    </select>
+    <select id="getEntity" resultType="com.alibaba.fastjson.JSONObject">
+        select
+        <foreach item="item" collection="columns.keys" separator=",">
+            ${columns[item]} as ${item}
         </foreach>
         from
         ${tableName}

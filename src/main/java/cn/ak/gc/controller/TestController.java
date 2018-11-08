@@ -4,16 +4,18 @@ import cn.ak.gc.commen.model.Page;
 import cn.ak.gc.domain.entities.UserInfo;
 import cn.ak.gc.service.LoginService;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class TestController {
+    private final Logger logger = LogManager.getLogger();
     @Autowired
     LoginService loginService;
 
@@ -32,10 +34,6 @@ public class TestController {
         loginService.saveUser();
     }
 
-    @RequestMapping("/updateUser")
-    public void updateUser() {
-        loginService.updateUser();
-    }
 
     @RequestMapping("/deleteUser")
     public void deleteUser() {
@@ -45,7 +43,15 @@ public class TestController {
     @RequestMapping("/getEntities")
     public List<UserInfo> getEntities() {
         UserInfo userInfo = new UserInfo();
-        return loginService.getEntities(userInfo);
+        logger.error("测试错误");
+        logger.warn("测试警告");
+        logger.info("测试信息");
+        logger.debug("测试debug");
+        List<UserInfo> test = loginService.getEntities(userInfo);
+        for(UserInfo u : test) {
+            System.out.println(u);
+        }
+        return test;
     }
 
     @RequestMapping("/getPageEntities")

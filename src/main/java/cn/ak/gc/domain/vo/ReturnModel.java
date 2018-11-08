@@ -17,12 +17,6 @@ public class ReturnModel implements Serializable {
 	private int status=0;
 	/**返回消息*/
 	private String message;
-	/**单据号*/
-	private String billno;
-	/**单据主键*/
-	private String pk_bill;
-	/**单据类型*/
-	private String vbilltype;
 	/**返回数据*/
 	private Object data;
 	/**返回多个数据*/
@@ -58,30 +52,6 @@ public class ReturnModel implements Serializable {
 
 	public void setMessage(String message) {
 		this.message = message;
-	}
-
-	public String getBillno() {
-		return billno;
-	}
-
-	public void setBillno(String billno) {
-		this.billno = billno;
-	}
-
-	public String getPk_bill() {
-		return pk_bill;
-	}
-
-	public void setPk_bill(String pk_bill) {
-		this.pk_bill = pk_bill;
-	}
-
-	public String getVbilltype() {
-		return vbilltype;
-	}
-
-	public void setVbilltype(String vbilltype) {
-		this.vbilltype = vbilltype;
 	}
 
 	public Object getData() {

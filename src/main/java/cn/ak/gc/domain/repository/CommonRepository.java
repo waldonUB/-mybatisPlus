@@ -18,6 +18,7 @@ public interface CommonRepository<T> {
     int deleteVO(@Param("tableName") String tableName, @Param("primaryKey") String primaryKey, @Param("columns") JSONObject columns);
     int updateVO(@Param("tableName") String tableName, @Param("primaryKey") String primaryKey, @Param("columns") JSONObject columns);
     List<T> getEntities(@Param("tableName")String tableName, @Param("primaryKey") String primaryKey, @Param("columns")JSONObject columns, @Param("params") JSONObject params);
+    JSONObject getEntity(@Param("tableName")String tableName, @Param("primaryKey") String primaryKey, @Param("columns")JSONObject columns, @Param("params") JSONObject params);
     List<T> getPageEntities(@Param("tableName")String tableName, @Param("primaryKey") String primaryKey, @Param("columns")JSONObject columns, @Param("params") JSONObject params, @Param("current") int current, @Param("size") int size);
     int getPageCount(@Param("tableName")String tableName);
 }

@@ -2,9 +2,8 @@ package cn.ak.gc.commen.utils;
 
 import cn.ak.gc.commen.annotation.Entity;
 import cn.ak.gc.commen.model.Page;
-import cn.ak.gc.domain.entities.UserInfo;
 import cn.ak.gc.domain.repository.CommonRepository;
-import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,8 +24,24 @@ public class CommonDAO<T> {
         return getVO(vo, "insertVOWithoutPK");
     }
 
+    public int insertVOWithTB(T vo, String tableName) {
+        JSONObject json = (JSONObject) JSONObject.toJSON(vo);
+        JSONObject columns = new JSONObject();
+        json.forEach((k, v) -> columns.put(TranslateCase.lowerCase(k), v));
+        return repository.insertVOWithPK(tableName, null, columns);
+    }
+
     public int deleteVO(T vo) {
         return getVO(vo, "deleteVO");
+    }
+
+    public int deleteVOWithTB(T vo, String tableName) {
+        Entity entity = vo.getClass().getAnnotation(Entity.class);
+        String primaryKey = entity.primaryKey();
+        JSONObject json = (JSONObject) JSONObject.toJSON(vo);
+        JSONObject columns = new JSONObject();
+        json.forEach((k, v) -> columns.put(TranslateCase.lowerCase(k), v));
+        return repository.deleteVO(tableName, primaryKey, columns);
     }
 
     public int updateVO(T vo) {
@@ -40,6 +55,26 @@ public class CommonDAO<T> {
         JSONObject columns = (JSONObject) JSONObject.toJSON(vo);
         columns.forEach((k, v) -> columns.put(k, TranslateCase.lowerCase(k)));
         return repository.getEntities(tableName, primaryKey, columns, params);
+    }
+
+    public T getEntity(T vo) throws Exception{
+        Entity entity = vo.getClass().getAnnotation(Entity.class);
+        String tableName = entity.tableName();
+        String primaryKey = entity.primaryKey();
+        JSONObject columns = (JSONObject) JSONObject.toJSON(vo);
+        JSONObject params = new JSONObject();
+        columns.forEach((k, v) -> params.put(TranslateCase.lowerCase(k), v));
+        columns.forEach((k, v) -> columns.put(k, TranslateCase.lowerCase(k)));
+        try {
+            JSONObject ReturnVO = repository.getEntity(tableName, primaryKey, columns, params);
+            if (ReturnVO == null) {
+                return null;
+            } else {
+                return JSON.toJavaObject(ReturnVO, (Class<T>)vo.getClass());
+            }
+        } catch (Exception e) {
+            throw new Exception("只能获取一个对象" + e);
+        }
     }
 
     public Page<T> getPageEntities(T vo, JSONObject params, int current, int size) {

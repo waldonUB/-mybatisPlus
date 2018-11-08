@@ -8,12 +8,8 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -21,6 +17,34 @@ public class LoginServiceImpl implements LoginService {
 
     @Autowired
     CommonDAO<UserInfo> commonDAO;
+
+    @Override
+    public UserInfo getUserInfo(UserInfo vo) throws Exception {
+        return commonDAO.getEntity(vo);
+    }
+
+    @Override
+    public void addLoginUser(UserInfo userInfo) {
+        userInfo.setCreationTime(new Date());
+        userInfo.setLastTime(new Date());
+        commonDAO.insertVOWithTB(userInfo, "sys_login_user");
+    }
+
+    @Override
+    public void deleteLoginUser(UserInfo userInfo) {
+        commonDAO.deleteVOWithTB(userInfo, "sys_login_user");
+    }
+
+    @Override
+    public void addUser(UserInfo userInfo) {
+        userInfo.setCreationTime(new Date());
+        commonDAO.insertVOWithPK(userInfo);
+    }
+
+    @Override
+    public void updateUser(UserInfo userInfo) {
+        commonDAO.updateVO(userInfo);
+    }
 
     @Override
     public int saveUser() {
@@ -33,15 +57,7 @@ public class LoginServiceImpl implements LoginService {
         return commonDAO.insertVOWithPK(userInfo);
     }
 
-    @Override
-    public int updateUser() {
-        String userId = "5772ad77-603c-4929-a454-44e82e987fa2";
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserId(userId);
-        userInfo.setUserName("更新版成吉思汗");
-        userInfo.setModifyTime(new Date());
-        return commonDAO.updateVO(userInfo);
-    }
+
 
     @Override
     public int deleteUser() {

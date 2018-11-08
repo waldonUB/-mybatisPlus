@@ -2,7 +2,7 @@ package cn.ak.gc.commen.utils;
 
 public class TranslateCase {
 
-    public static String lowerCase(String str) {
+    static String lowerCase(String str) {
         char[] ch = str.toCharArray();
         int num = 0;
         for (char aCh : ch) {

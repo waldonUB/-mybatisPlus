@@ -6,9 +6,15 @@ import cn.ak.gc.domain.entities.UserInfo;
 import java.util.List;
 
 public interface LoginService {
+    UserInfo getUserInfo(UserInfo userInfo) throws Exception;
+    void addLoginUser(UserInfo userInfo);
+    void deleteLoginUser(UserInfo userInfo);
+    void addUser(UserInfo userInfo);
+    void updateUser(UserInfo userInfo);
     int saveUser();
-    int updateUser();
     int deleteUser();
-    List<UserInfo> getEntities(UserInfo vo);
-    Page<UserInfo> getPageEntities(UserInfo vo, int current, int size);
+    List<UserInfo> getEntities(UserInfo userInfo);
+    Page<UserInfo> getPageEntities(UserInfo userInfo, int current, int size);
+
+
 }
