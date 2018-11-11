@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间对应接口的包名+类名 -->
+<mapper namespace="cn.ak.gc.domain.repository.EssayRepository">
+    <!--id是接口中的方法，结果类型如没有配置别名则应该使用全名称 -->
+    <select id="getEssays" resultType="map">
+        select blog_info.pk_blog, blog_info.user_id as userId, blog_info.user_name as userName, blog_info.head_img as headImg, blog_info.blog_title as blogTitle, blog_info.blog_content as blogContent,
+        blog_info.blog_classify as blogClassify, blog_info.creation_time as creationTime, (case when blog_comment.pk_blog is not null then count(1) else 0 end) as commentNum,
+        blog_praise.praiseNum, sub_praise.isPraised
+        from blog_info blog_info
+        LEFT JOIN blog_comment on blog_info.pk_blog = blog_comment.pk_blog
+        LEFT JOIN (select blog_info.pk_blog, (case when blog_praise.pk_blog is not null then count(1) else 0 end) as praiseNum
+             from blog_info
+               LEFT JOIN blog_praise on blog_info.pk_blog = blog_praise.pk_blog
+             GROUP BY blog_info.pk_blog) blog_praise
+        on blog_info.pk_blog = blog_praise.pk_blog
+        LEFT JOIN (
+        select blog_info.pk_blog, (case when blog_praise.user_name is not null then 1 else 0 end) as isPraised from blog_info
+        LEFT JOIN blog_praise on blog_info.pk_blog = blog_praise.pk_blog and blog_praise.user_name = #{userName}) sub_praise
+          on blog_info.pk_blog = sub_praise.pk_blog
+        group by blog_info.pk_blog
+        order by blog_info.creation_time desc
+    </select>
+</mapper>

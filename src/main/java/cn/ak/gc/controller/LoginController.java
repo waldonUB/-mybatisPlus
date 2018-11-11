@@ -91,21 +91,17 @@ public class LoginController {
      * @return 是否注销成功的状态
      */
     @RequestMapping("/loginOut")
-    public ReturnModel loginOut(@RequestBody UserInfo userInfo, HttpSession session) throws RuntimeException, SQLException {
+    public ReturnModel loginOut(@RequestBody UserInfo userInfo, HttpSession session) throws Exception {
         ReturnModel model = new ReturnModel();
-        UserInfo sessionInfo = (UserInfo) session.getAttribute("sessionKey");
-        if (sessionInfo != null) {
-            loginService.deleteLoginUser(sessionInfo);
+        UserInfo sessionInfo = loginService.getUserInfo(userInfo);
+        loginService.deleteLoginUser(sessionInfo);
+        if (session.getAttribute("sessionKey") != null) {
 //            session.invalidate();//可以触发Session的监听事件
             session.removeAttribute("sessionKey");
-            model.setSuccess(true);
-            model.setMessage("注销成功");
-            return model;
-        } else {
-            model.setSuccess(false);
-            model.setMessage("注销失败");
-            return model;
         }
+        model.setSuccess(true);
+        model.setMessage("注销成功");
+        return model;
     }
 
     /**

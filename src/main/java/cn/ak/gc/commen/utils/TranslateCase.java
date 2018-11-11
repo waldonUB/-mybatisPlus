@@ -13,12 +13,12 @@ public class TranslateCase {
         char[] chNew = new char[ch.length + num];
         int flag = 0;
         for (int i = 0; i < ch.length; i++) {
-            if (ch[i] >= 'a' && ch[i] <= 'z') {
-                chNew[i + flag] = ch[i];
-            } else if (ch[i] >= 'A' && ch[i] <= 'Z') {
+            if (ch[i] >= 'A' && ch[i] <= 'Z') {
                 chNew[i + flag] = '_';
                 chNew[i + flag + 1] = (char) (ch[i] + 32);
                 flag++;
+            } else {
+                chNew[i + flag] = ch[i];
             }
         }
         return new String(chNew);
