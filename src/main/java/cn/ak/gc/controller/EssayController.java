@@ -5,12 +5,15 @@ import cn.ak.gc.domain.entities.Essay;
 import cn.ak.gc.domain.entities.Praise;
 import cn.ak.gc.domain.vo.ReturnModel;
 import cn.ak.gc.service.EssayService;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/essay")
@@ -41,7 +44,7 @@ public class EssayController {
     @RequestMapping("/getEssays")
     public ReturnModel getEssays(@RequestBody JSONObject json) {
         ReturnModel model = new ReturnModel();
-        List<Map<String, Object>> list = essayService.getEssays(json);
+        JSONArray list = essayService.getEssays(json);
         model.setData(list);
         model.setSuccess(true);
         return model;
