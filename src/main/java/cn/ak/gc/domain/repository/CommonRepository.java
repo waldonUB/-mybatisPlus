@@ -16,6 +16,7 @@ public interface CommonRepository<T> {
     int insertVOWithPK(@Param("tableName") String tableName, @Param("primaryKey") String primaryKey, @Param("columns") JSONObject columns);
     int insertVOWithoutPK(@Param("tableName") String tableName, @Param("primaryKey") String primaryKey, @Param("columns") JSONObject columns);
     int deleteVO(@Param("tableName") String tableName, @Param("primaryKey") String primaryKey, @Param("columns") JSONObject columns);
+    int deleteWithParams(@Param("tableName") String tableName, @Param("params") JSONObject params);
     int updateVO(@Param("tableName") String tableName, @Param("primaryKey") String primaryKey, @Param("columns") JSONObject columns);
     List<T> getEntities(@Param("tableName")String tableName, @Param("primaryKey") String primaryKey, @Param("columns")JSONObject columns, @Param("params") JSONObject params);
     JSONObject getEntity(@Param("tableName")String tableName, @Param("primaryKey") String primaryKey, @Param("columns")JSONObject columns, @Param("params") JSONObject params);

@@ -32,7 +32,11 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public void deleteLoginUser(UserInfo userInfo) {
-        commonDAO.deleteVOWithTB(userInfo, "sys_login_user");
+        JSONObject params = new JSONObject();
+        if (userInfo != null) {
+            params.put("user_name", userInfo.getUserName());
+            commonDAO.deleteWithParams("sys_login_user", params);
+        }
     }
 
     @Override

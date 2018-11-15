@@ -34,6 +34,14 @@
     <delete id="deleteVO">
         delete from ${tableName} where ${primaryKey} = #{columns[${primaryKey}]}
     </delete>
+    <delete id="deleteWithParams">
+        delete from ${tableName}
+        <where>
+            <foreach item="item" collection="params.keys" separator="and">
+                ${item} = #{params[${item}]}
+            </foreach>
+        </where>
+    </delete>
     <update id="updateVO">
         update ${tableName} set
         <foreach item="item" collection="columns.keys" separator=",">

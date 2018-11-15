@@ -93,11 +93,10 @@ public class LoginController {
     @RequestMapping("/loginOut")
     public ReturnModel loginOut(@RequestBody UserInfo userInfo, HttpSession session) throws Exception {
         ReturnModel model = new ReturnModel();
-        UserInfo sessionInfo = loginService.getUserInfo(userInfo);
-        loginService.deleteLoginUser(sessionInfo);
         if (session.getAttribute("sessionKey") != null) {
+//            session.removeAttribute("sessionKey");
 //            session.invalidate();//可以触发Session的监听事件
-            session.removeAttribute("sessionKey");
+            session.setMaxInactiveInterval(0);
         }
         model.setSuccess(true);
         model.setMessage("注销成功");
