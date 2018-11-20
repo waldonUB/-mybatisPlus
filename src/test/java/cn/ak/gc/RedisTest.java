@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RedisTest {
+public class RedisTest extends GcApplicationTests{
     @Test
     public void listMapTest() {
         Jedis jedis = new Jedis();
@@ -31,4 +31,5 @@ public class RedisTest {
         List<String> listMap = jedis.lrange("listMap", 0, -1); // 从0到-1获取全部元素
 //        JSONArray list = JSON.parseArray(listMap);
     }
+
 }

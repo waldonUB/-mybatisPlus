@@ -1,25 +1,38 @@
 package cn.ak.gc.controller;
 
 import cn.ak.gc.commen.model.Page;
+import cn.ak.gc.commen.utils.TestUtils;
 import cn.ak.gc.domain.entities.UserInfo;
 import cn.ak.gc.service.LoginService;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
+@Api("testController相关的API")
 @RestController
 public class TestController {
     private final Logger logger = LogManager.getLogger();
     @Autowired
     LoginService loginService;
+    @ApiOperation("获取用户信息")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "header", name = "userName", dataType = "String", required = true, value="用户的姓名", defaultValue="zhaojigang"),
+            @ApiImplicitParam(paramType = "query", name = "password", dataType = "String", required = true, value="用户的密码", defaultValue="123456"),
+    })
+    @ApiResponses({
+            @ApiResponse(code = 400, message="请求参数没填好"),
+            @ApiResponse(code = 404, message="不存在该地址")
+    })
 
-    @RequestMapping("/redisSession")
+    @RequestMapping(value = "/redisSession", method = RequestMethod.POST)
     public void redisSession(HttpSession session) {
         String name= "waldon";
         JSONObject json = new JSONObject();
@@ -50,8 +63,8 @@ public class TestController {
     }
 
     @RequestMapping("/getPageEntities")
-    public Page<UserInfo> getPageEntities() {
-        UserInfo userInfo = new UserInfo();
+    public Page<UserInfo> getPageEntities() throws Exception {
+        UserInfo userInfo = TestUtils.test();
         return loginService.getPageEntities(userInfo, 1 , 5);
     }
 

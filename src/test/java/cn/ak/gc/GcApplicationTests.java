@@ -12,10 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -101,5 +98,20 @@ public class GcApplicationTests {
 		String name = "userName";
 		System.out.println(lowerCase(name));
 		String password = "";
+	}
+
+	@Test
+	public void testList() {
+		List list = new ArrayList();
+		list.add(1);
+		list.add(2);
+		List list2 = new ArrayList();
+		list2.add(3);
+		list2.add(4);
+		list.forEach(item -> {
+			list2.forEach(item2 -> {
+
+			});
+		});
 	}
 }
