@@ -20,6 +20,10 @@ import java.util.List;
 @RestController
 public class TestController {
     private final Logger logger = LogManager.getLogger();
+
+    public TestController() {
+        System.out.println("spring会对扫描到的包进行实例化");
+    }
     @Autowired
     LoginService loginService;
     @ApiOperation("获取用户信息")
