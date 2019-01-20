@@ -13,6 +13,7 @@ public interface EssayService {
     void saveEssay(Essay essay);
     JSONArray getEssays(JSONObject json);
     void savePraise(Praise praise);
+    void deletePraise(Praise praise);
     List<Comment> getComments(Comment comment);
     void saveComment(Comment comment);
 }

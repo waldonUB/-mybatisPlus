@@ -45,7 +45,9 @@ public class CommonDAO<T> {
     }
 
     public int deleteWithParams(String tableName, JSONObject params) {
-        return repository.deleteWithParams(tableName, params);
+        JSONObject json = new JSONObject();
+        params.forEach((k, v) -> json.put(TranslateCase.lowerCase(k), v));
+        return repository.deleteWithParams(tableName, json);
     }
 
     public int updateVO(T vo) {

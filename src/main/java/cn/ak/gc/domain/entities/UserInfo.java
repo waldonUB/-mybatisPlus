@@ -25,8 +25,8 @@ public class UserInfo implements Serializable {
     @Column(column = "password")
     private String password;
     /**生效状态*/
-    @Column(column = "state")
-    private int state;
+    @Column(column = "status")
+    private int status;
     /**用户类型*/
     @Column(column = "user_type")
     private int userType;
@@ -85,12 +85,12 @@ public class UserInfo implements Serializable {
         this.password = password;
     }
 
-    public int getState() {
-        return state;
+    public int getStatus() {
+        return status;
     }
 
-    public void setState(int state) {
-        this.state = state;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public int getUserType() {

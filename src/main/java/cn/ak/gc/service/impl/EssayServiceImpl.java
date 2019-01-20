@@ -46,6 +46,7 @@ public class EssayServiceImpl implements EssayService {
         long begin = System.currentTimeMillis();
         Jedis jedis = new Jedis();
         String userName = json.getString("userName");
+        String blogTitle = json.getString("blogTitle");
         List<Map<String, Object>> list = essayRepository.getEssays(userName);
         List<String> essayInfo = jedis.lrange("essayInfo", 0, -1);
         long redis = System.currentTimeMillis();
@@ -53,15 +54,17 @@ public class EssayServiceImpl implements EssayService {
         JSONArray array = new JSONArray();
         essayInfo.forEach(essay -> {
             JSONObject jsonEssay = JSONObject.parseObject(essay);
-            for (Map<String, Object> aList : list) {
-                if (jsonEssay.getString("pk_blog").equals(aList.get("pk_blog"))) {
-                    jsonEssay.put("commentNum", aList.get("commentNum"));
-                    jsonEssay.put("praiseNum", aList.get("praiseNum"));
-                    jsonEssay.put("isPraised", aList.get("isPraised"));
-                    break;
+            if (jsonEssay.getString("blogTitle").contains(blogTitle)) { // 搜索关键词
+                for (Map<String, Object> aList : list) {
+                    if (jsonEssay.getString("pk_blog").equals(aList.get("pk_blog"))) {
+                        jsonEssay.put("commentNum", aList.get("commentNum"));
+                        jsonEssay.put("praiseNum", aList.get("praiseNum"));
+                        jsonEssay.put("isPraised", aList.get("isPraised"));
+                        break;
+                    }
                 }
+                array.add(jsonEssay);
             }
-            array.add(jsonEssay);
         });
         long end = System.currentTimeMillis();
         System.out.println("遍历耗费时间：" + (end - redis));
@@ -74,6 +77,12 @@ public class EssayServiceImpl implements EssayService {
         praise.setPk_praise(UUID.randomUUID().toString());
         praise.setCreationTime(new Date());
         praiseCommonDAO.insertVOWithPK(praise);
+    }
+
+    @Override
+    public void deletePraise(Praise praise) {
+        JSONObject params = JSONObject.parseObject(JSON.toJSONString(praise));
+        praiseCommonDAO.deleteWithParams("blog_praise", params);
     }
 
     @Override

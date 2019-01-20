@@ -64,6 +64,19 @@ public class EssayController {
     }
 
     /**
+     * 取消点赞
+     * @param praise
+     * @return 返回是否成功状态
+     * */
+    @RequestMapping("/deletePraise")
+    public ReturnModel deletePraise(@RequestBody Praise praise) {
+        ReturnModel model = new ReturnModel();
+        essayService.deletePraise(praise);
+        model.setSuccess(true);
+        return model;
+    }
+
+    /**
      * 查询评论
      * @param comment
      * @return 返回该文章下的评论信息
