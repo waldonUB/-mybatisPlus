@@ -8,10 +8,7 @@ import cn.ak.gc.service.EssayService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,6 +29,20 @@ public class EssayController {
     public ReturnModel saveEssay(@RequestBody Essay essay) {
         ReturnModel model = new ReturnModel();
         essayService.saveEssay(essay);
+        model.setSuccess(true);
+        return model;
+    }
+
+    /**
+     * 保存文章
+     * @param pkBlog
+     * @return 返回保存是否成功的状态
+     * */
+    @RequestMapping("/deleteEssay")
+    @ResponseBody
+    public ReturnModel deleteEssay(@RequestParam("pkBlog") String pkBlog) {
+        ReturnModel model = new ReturnModel();
+        essayService.deleteEssay(pkBlog);
         model.setSuccess(true);
         return model;
     }

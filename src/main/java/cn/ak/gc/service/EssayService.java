@@ -16,4 +16,5 @@ public interface EssayService {
     void deletePraise(Praise praise);
     List<Comment> getComments(Comment comment);
     void saveComment(Comment comment);
+    void deleteEssay(String pkBlog);
 }

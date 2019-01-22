@@ -99,4 +99,22 @@ public class EssayServiceImpl implements EssayService {
         comment.setCreationTime(new Date());
         commentCommonDAO.insertVOWithPK(comment);
     }
+
+    @Override
+    public void deleteEssay(String pkBlog) {
+        Essay essay = new Essay();
+        JSONObject comment = new JSONObject();
+        JSONObject praise = new JSONObject();
+        essay.setPk_blog(pkBlog);
+        comment.put("pk_blog", pkBlog);
+        praise.put("pk_blog", pkBlog);
+        commonDAO.deleteVO(essay); // 删除文章,评论和点赞
+        commentCommonDAO.deleteWithParams("blog_comment", comment);
+        praiseCommonDAO.deleteWithParams("blog_praise", praise);
+        Jedis jedis = new Jedis();
+        List<String> list = jedis.lrange("essayInfo", 0, -1);
+        String currentEssay = list.stream().filter(item -> item.contains(pkBlog))
+                .findAny().orElse(""); // 如果没有顺序上的需求,findAny会比findFirst快
+        jedis.lrem("essayInfo", 0, currentEssay);
+    }
 }
