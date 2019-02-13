@@ -3,24 +3,18 @@ package cn.ak.gc.controller;
 import cn.ak.gc.domain.entities.UserInfo;
 import cn.ak.gc.domain.vo.ReturnModel;
 import cn.ak.gc.service.LoginService;
-import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import redis.clients.jedis.Jedis;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/gc/login")
 public class LoginController {
     @Autowired
     LoginService loginService;
@@ -67,8 +61,10 @@ public class LoginController {
     @RequestMapping("/register")
     public ReturnModel registerUser(@RequestBody UserInfo userInfo) {
         ReturnModel model = new ReturnModel();
+        UserInfo userInfoNew = new UserInfo();
+        userInfoNew.setUserName(userInfo.getUserName());
         try {
-            UserInfo oldUser = loginService.getUserInfo(userInfo);
+            UserInfo oldUser = loginService.getUserInfo(userInfoNew);
             if (oldUser == null) {
                 model.setSuccess(true);
                 userInfo.setUserId(UUID.randomUUID().toString());

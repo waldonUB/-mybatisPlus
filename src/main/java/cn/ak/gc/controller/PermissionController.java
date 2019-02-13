@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/permission")
+@RequestMapping("/gc/permission")
 public class PermissionController {
 
     @Autowired

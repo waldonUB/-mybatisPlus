@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/essay")
+@RequestMapping("/gc/essay")
 public class EssayController {
 
     @Autowired
