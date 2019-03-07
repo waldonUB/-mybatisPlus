@@ -13,6 +13,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -92,12 +93,32 @@ public class GcApplicationTests {
 		}
 		System.out.println(newName);
 	}
-
+	/**
+	 * map的hash值的方法是判断里面每个key和值相不相等
+	 * model的hash值不会重复
+	 * */
 	@Test
-	public void lowCaseTest() {
-		String name = "userName";
-		System.out.println(lowerCase(name));
-		String password = "";
+	public void hashTest() {
+		UserInfo userInfo = new UserInfo();
+		UserInfo userInfo1 = new UserInfo();
+		userInfo.setUserName("wdq");
+		userInfo1.setUserName("wdq");
+		Map<String, Object> map = new HashMap<>();
+		map.put("name", "wdq");
+		Map<String, Object> map2 = new HashMap<>();
+		map2.put("name", "wdq");
+		System.out.println(map2.hashCode());
+		System.out.println(userInfo1.hashCode());
+		List<Map<String, Object>> list = new ArrayList<>();
+		list.add(map);
+		list.add(map2);
+		List<Map<String, Object>> list2 = list.stream().distinct().collect(Collectors.toList());
+		System.out.println(userInfo.hashCode());
+		System.out.println(userInfo1.hashCode());
+		List<UserInfo> list3 = new ArrayList<>();
+		list3.add(userInfo);
+		list3.add(userInfo1);
+		List<UserInfo> list4 = list3.stream().distinct().collect(Collectors.toList());
 	}
 
 	@Test
