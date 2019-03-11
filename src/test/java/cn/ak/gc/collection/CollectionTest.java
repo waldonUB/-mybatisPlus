@@ -1,5 +1,6 @@
 package cn.ak.gc.collection;
 
+import cn.ak.gc.domain.entities.UserInfo;
 import org.junit.Test;
 
 import java.util.*;
@@ -27,5 +28,10 @@ public class CollectionTest {
     public void iteratorTest() {
         List<String> list = new ArrayList<>();
         Iterator iterator = list.iterator();
+        Object object = new Object();
+        int i = 1;
+        UserInfo userInfo = new UserInfo();
+        userInfo.equals(object);
+
     }
 }

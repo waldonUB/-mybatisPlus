@@ -72,4 +72,9 @@ public class TestController {
         return loginService.getPageEntities(userInfo, 1 , 5);
     }
 
+    @RequestMapping("/getFTPFile")
+    public void getFTPFile() {
+
+    }
+
 }
