@@ -1,4 +1,4 @@
-package cn.ak.gc.designMode.factory;
+package cn.ak.gc.designMode.factory.staticFactory;
 
 public interface Car {
     default void ring () {

@@ -18,7 +18,7 @@ public class CollectionTest {
     }
 
     @Test
-    public void mapTest(Map.Entry<String, Object> entry) {
+    public void mapTest() {
         Map<String, Object> map = new HashMap<>();
         Collection<Object> collection = map.values();
         List<String> list = new ArrayList<>();

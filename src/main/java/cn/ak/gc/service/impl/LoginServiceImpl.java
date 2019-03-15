@@ -7,6 +7,9 @@ import cn.ak.gc.service.LoginService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -31,6 +34,8 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
+//    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.DEFAULT)
     public void deleteLoginUser(UserInfo userInfo) {
         JSONObject params = new JSONObject();
         if (userInfo != null) {
@@ -46,6 +51,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void updateUser(UserInfo userInfo) {
         commonDAO.updateVO(userInfo);
     }
@@ -67,6 +73,7 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<UserInfo> getEntities(UserInfo vo) {
         UserInfo userInfo = new UserInfo();
         JSONObject params = new JSONObject();

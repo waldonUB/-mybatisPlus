@@ -11,4 +11,6 @@ public class TypeTest<T> extends RedisTest{
         int j = i>>3;
         System.out.println(j);
     }
+
+    public void testType(){}
 }

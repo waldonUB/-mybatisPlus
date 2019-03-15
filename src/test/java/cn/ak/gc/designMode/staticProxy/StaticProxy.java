@@ -13,4 +13,10 @@ public class StaticProxy implements RealObject{
         System.out.println("代理前");
         realObject.request();
     }
+
+    @Override
+    public void hello() {
+        System.out.println("代理前");
+        realObject.hello();
+    }
 }

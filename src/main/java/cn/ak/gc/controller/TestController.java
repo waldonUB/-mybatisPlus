@@ -9,6 +9,9 @@ import io.swagger.annotations.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -53,12 +56,19 @@ public class TestController {
     }
 
     @RequestMapping("/getEntities")
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    // DEFAULT是使用默认的隔离级别,mysql默认的隔离级别是repeatable-read,可以解决到不可重复读的级别
     public List<UserInfo> getEntities() {
         UserInfo userInfo = new UserInfo();
+        userInfo.setUserId("2a602121");
+//        userInfo.setUserName("waldon" + System.currentTimeMillis());
+        userInfo.setUserName("waldon1552374397476");
         logger.error("测试错误");
         logger.warn("测试警告");
         logger.info("测试信息");
         logger.debug("测试debug");
+        loginService.updateUser(userInfo);
+        loginService.deleteLoginUser(userInfo);
         List<UserInfo> test = loginService.getEntities(userInfo);
         for(UserInfo u : test) {
             System.out.println(u);

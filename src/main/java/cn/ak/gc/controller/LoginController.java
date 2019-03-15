@@ -3,6 +3,7 @@ package cn.ak.gc.controller;
 import cn.ak.gc.domain.entities.UserInfo;
 import cn.ak.gc.domain.vo.ReturnModel;
 import cn.ak.gc.service.LoginService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.UUID;
 
+
+@Api("登录模块测试")
 @RestController
 @RequestMapping("/gc/login")
 public class LoginController {

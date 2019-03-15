@@ -2,16 +2,14 @@ package cn.ak.gc.designMode.staticProxy.impl;
 
 import cn.ak.gc.designMode.staticProxy.RealObject;
 
-public class RealObjectImpl implements RealObject {
-
+public class RealObjectImpl2 implements RealObject {
     @Override
     public void request() {
-        System.out.println("static request");
+        System.out.println("RealObjectImpl2");
     }
 
     @Override
     public void hello() {
-        System.out.println("static hello");
-    }
 
+    }
 }

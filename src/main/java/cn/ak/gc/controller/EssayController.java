@@ -7,11 +7,14 @@ import cn.ak.gc.domain.vo.ReturnModel;
 import cn.ak.gc.service.EssayService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@Api("社区文章接口测试")
 @RestController
 @RequestMapping("/gc/essay")
 public class EssayController {

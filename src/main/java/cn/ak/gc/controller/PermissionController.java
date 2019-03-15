@@ -3,6 +3,7 @@ package cn.ak.gc.controller;
 import cn.ak.gc.domain.vo.ReturnModel;
 import cn.ak.gc.service.UserPermission;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.Map;
 
+@Api("权限节点")
 @RestController
 @RequestMapping("/gc/permission")
 public class PermissionController {

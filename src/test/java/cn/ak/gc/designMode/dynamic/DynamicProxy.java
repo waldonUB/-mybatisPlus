@@ -15,8 +15,8 @@ public class DynamicProxy implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // 代理前
         System.out.println("代理前");
-        method.invoke(realObject, args);
+        Object result = method.invoke(realObject, args);
         System.out.println("代理后");
-        return null;
+        return result; // result有啥用?
     }
 }
