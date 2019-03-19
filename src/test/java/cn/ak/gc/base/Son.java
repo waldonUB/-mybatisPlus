@@ -17,4 +17,6 @@ public class Son extends Father {
     public void testSuper() {
 //        super();  是super()方法只能放在构造器且只能放在第一行
     }
+
+    static void overrideTest() {}
 }

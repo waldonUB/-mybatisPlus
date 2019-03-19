@@ -5,4 +5,6 @@ public class Father {
     public Father(String type) {
 
     }
+
+    static void overrideTest() {}
 }
