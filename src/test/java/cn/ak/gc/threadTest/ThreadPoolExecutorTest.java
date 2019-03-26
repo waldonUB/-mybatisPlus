@@ -2,7 +2,7 @@ package cn.ak.gc.threadTest;
 
 import java.util.concurrent.*;
 
-public class ExecutorThreadPoolTest {
+public class ThreadPoolExecutorTest {
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         int coreSize = Runtime.getRuntime().availableProcessors(); // 获取当前核心数
         long start = System.currentTimeMillis();
@@ -26,6 +26,9 @@ public class ExecutorThreadPoolTest {
         String result1 = future1.get();
         String result2 = future2.get();
         String result3 = future3.get();
+        if (!executorService.isShutdown()) {
+            executorService.shutdown();
+        }
         System.out.println(result1);
         System.out.println(result2);
         System.out.println(result3);

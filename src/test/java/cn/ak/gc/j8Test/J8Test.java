@@ -18,7 +18,7 @@ public class J8Test {
         userInfo.setUserName("吴德钦");
         Map<String, Object> map = new HashMap<>();
         map.put("name", "吴德钦");
-        map.forEach((key ,value) -> {
+        map.forEach((String key ,Object value) -> {
             System.out.println("key" + key);
             System.out.println("value" + value);
         });

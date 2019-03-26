@@ -39,6 +39,7 @@ public class CollectionTest {
     @Test
     public void HashCodeTest() {
         HashMap<String, Object> map = new HashMap<>();
+        map.hashCode();
         System.out.println("map" + map.hashCode());
         map.put("name", "w4");
         System.out.println("map" + map.hashCode());
@@ -72,5 +73,10 @@ public class CollectionTest {
         System.out.println("userInfo1:" + userInfo1.hashCode());
         userInfo1.setPassword("w");
         System.out.println("userInfo1:" + userInfo1.hashCode());
+    }
+
+    @Test
+    public void linkListTest() {
+        List list = new LinkedList();
     }
 }

@@ -21,15 +21,13 @@ public class FutureTest {
                 return list;
             }
         };
-        Callable<Chuju> shopping2 = new Callable<Chuju>() { // 第二个任务
-            @Override
-            public Chuju call() throws Exception {
-                System.out.println("下单2");
-                System.out.println("等待送货2");
-                Thread.sleep(12000);
-                System.out.println("快递送到2");
-                return new Chuju();
-            }
+        // 第二个任务
+        Callable<Chuju> shopping2 = () -> {
+            System.out.println("下单2");
+            System.out.println("等待送货2");
+            Thread.sleep(12000);
+            System.out.println("快递送到2");
+            return new Chuju();
         };
         FutureTask<List<String>> task = new FutureTask<>(shopping);
         FutureTask<Chuju> task2 = new FutureTask<>(shopping2);

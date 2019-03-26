@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -23,6 +25,7 @@ import java.util.List;
 @RestController
 public class TestController {
     private final Logger logger = LogManager.getLogger();
+    private JedisPool jedisPool = new JedisPool();
 
     public TestController() {
         System.out.println("spring会对扫描到的包进行实例化");
@@ -85,6 +88,18 @@ public class TestController {
     @RequestMapping("/getFTPFile")
     public void getFTPFile() {
 
+    }
+
+    @RequestMapping("/redisIncreTest")
+    public String redisIncreTest() {
+        Jedis jedis = null;
+        if (jedisPool != null) {
+            jedis = jedisPool.getResource();
+        } else {
+            jedisPool = new JedisPool();
+        }
+        long increNum = jedis.incr("redisIncreTest");
+        return "当前增量：" + increNum;
     }
 
 }
