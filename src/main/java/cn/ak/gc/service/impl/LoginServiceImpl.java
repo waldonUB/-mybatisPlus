@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
+import java.io.*;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -35,12 +37,20 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
 //    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
-    @Transactional(propagation = Propagation.REQUIRES_NEW, isolation = Isolation.DEFAULT)
-    public void deleteLoginUser(UserInfo userInfo) {
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public void deleteLoginUser(UserInfo userInfo) throws FileNotFoundException {
         JSONObject params = new JSONObject();
         if (userInfo != null) {
-            params.put("user_name", userInfo.getUserName());
-            commonDAO.deleteWithParams("sys_login_user", params);
+            try{
+                params.put("password", "1");
+                commonDAO.deleteWithParams("sys_login_user", params);
+                int i = 1/0;
+            } catch (Exception e) {
+//                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            }
+
+//            InputStream inputStream = new FileInputStream("w");
+            System.out.println();
         }
     }
 
@@ -51,7 +61,8 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    @Transactional(propagation = Propagation.REQUIRED)
+//    @Transactional(propagation = Propagation.REQUIRED)
+    @Transactional(rollbackFor = Exception.class)
     public void updateUser(UserInfo userInfo) {
         commonDAO.updateVO(userInfo);
     }

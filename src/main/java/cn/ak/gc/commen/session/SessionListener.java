@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSessionAttributeListener;
 import javax.servlet.http.HttpSessionBindingEvent;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+import java.io.FileNotFoundException;
 
 @Service
 public class SessionListener implements HttpSessionListener, HttpSessionAttributeListener {
@@ -37,7 +38,11 @@ public class SessionListener implements HttpSessionListener, HttpSessionAttribut
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         System.out.println("session销毁了");
         UserInfo userInfo = (UserInfo) httpSessionEvent.getSession().getAttribute("sessionKey");
-        sessionListener.loginService.deleteLoginUser(userInfo);
+        try {
+            sessionListener.loginService.deleteLoginUser(userInfo);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

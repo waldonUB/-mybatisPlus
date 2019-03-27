@@ -28,5 +28,11 @@ public class Father {
 
     }
 
-    static void overrideTest() {}
+    public Father() {
+
+    }
+
+    public static void overrideTest() {
+        System.out.println("测试invoke方法");
+    }
 }

@@ -6,6 +6,8 @@ import cn.ak.gc.domain.entities.UserInfo;
 import cn.ak.gc.service.LoginService;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.*;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,10 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import javax.servlet.http.HttpSession;
+import java.io.FileNotFoundException;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.UUID;
 
 @Api("testController相关的API")
 @RestController
@@ -53,44 +58,42 @@ public class TestController {
     }
 
 
-    @RequestMapping("/deleteUser")
+    @RequestMapping(value = "/deleteUser" ,method = RequestMethod.GET)
     public void deleteUser() {
         loginService.deleteUser();
     }
 
-    @RequestMapping("/getEntities")
-    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
+    @RequestMapping(value = "/getEntities" ,method = RequestMethod.GET)
+    @Transactional(propagation = Propagation.REQUIRED)
     // DEFAULT是使用默认的隔离级别,mysql默认的隔离级别是repeatable-read,可以解决到不可重复读的级别
-    public List<UserInfo> getEntities() {
+    public List<UserInfo> getEntities() throws FileNotFoundException {
         UserInfo userInfo = new UserInfo();
-        userInfo.setUserId("2a602121");
-//        userInfo.setUserName("waldon" + System.currentTimeMillis());
-        userInfo.setUserName("waldon1552374397476");
-        logger.error("测试错误");
-        logger.warn("测试警告");
-        logger.info("测试信息");
-        logger.debug("测试debug");
-        loginService.updateUser(userInfo);
-        loginService.deleteLoginUser(userInfo);
-        List<UserInfo> test = loginService.getEntities(userInfo);
-        for(UserInfo u : test) {
-            System.out.println(u);
+//        CloseableHttpClient client = HttpClients.createDefault();
+        userInfo.setUserId("2a602121897");
+        userInfo.setUserName("waldon" + LocalTime.now());
+        try{
+            loginService.updateUser(userInfo);
+            loginService.deleteLoginUser(userInfo);
+        } catch (Exception e) {
+            System.out.println("内部事务出错了");
         }
+
+        List<UserInfo> test = loginService.getEntities(userInfo);
         return test;
     }
 
-    @RequestMapping("/getPageEntities")
+    @RequestMapping(value = "/getPageEntities", method = RequestMethod.GET)
     public Page<UserInfo> getPageEntities() throws Exception {
         UserInfo userInfo = TestUtils.test();
         return loginService.getPageEntities(userInfo, 1 , 5);
     }
 
-    @RequestMapping("/getFTPFile")
+    @RequestMapping(value = "/getFTPFile", method = RequestMethod.POST)
     public void getFTPFile() {
 
     }
 
-    @RequestMapping("/redisIncreTest")
+    @RequestMapping(value = "/redisIncreTest", method = RequestMethod.GET)
     public String redisIncreTest() {
         Jedis jedis = null;
         if (jedisPool != null) {
