@@ -1,6 +1,7 @@
 package cn.ak.gc.domain.repository;
 
 import cn.ak.gc.commen.model.Page;
+import cn.ak.gc.domain.entities.UserInfo;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.ibatis.annotations.Mapper;
@@ -22,4 +23,5 @@ public interface CommonRepository<T> {
     JSONObject getEntity(@Param("tableName")String tableName, @Param("primaryKey") String primaryKey, @Param("columns")JSONObject columns, @Param("params") JSONObject params);
     List<T> getPageEntities(@Param("tableName")String tableName, @Param("primaryKey") String primaryKey, @Param("columns")JSONObject columns, @Param("params") JSONObject params, @Param("current") int current, @Param("size") int size);
     int getPageCount(@Param("tableName")String tableName);
+    int updateTest(@Param("userInfo")UserInfo userInfo);
 }

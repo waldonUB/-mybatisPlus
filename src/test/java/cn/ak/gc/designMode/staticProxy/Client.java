@@ -10,7 +10,7 @@ public class Client {
         // 再在重写的代理方法里面做逻辑,实际上还是调用了目标对象的方法
         RealObject realObject = new RealObjectImpl();
 //        RealObject realObject2 = new RealObjectImpl2();
-        StaticProxy staticProxy = new StaticProxy(realObject);
+        RealObject staticProxy = new StaticProxy(realObject);
         staticProxy.request();
         staticProxy.hello();
     }

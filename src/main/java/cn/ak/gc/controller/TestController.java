@@ -3,17 +3,21 @@ package cn.ak.gc.controller;
 import cn.ak.gc.commen.model.Page;
 import cn.ak.gc.commen.utils.TestUtils;
 import cn.ak.gc.domain.entities.UserInfo;
+import cn.ak.gc.domain.repository.CommonRepository;
 import cn.ak.gc.service.LoginService;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.*;
+import org.apache.catalina.User;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +41,9 @@ public class TestController {
     }
     @Autowired
     LoginService loginService;
+
+    @Autowired
+    CommonRepository repository;
     @ApiOperation("获取用户信息")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "header", name = "userName", dataType = "String", required = true, value="用户的姓名", defaultValue="zhaojigang"),
@@ -69,6 +76,7 @@ public class TestController {
     public List<UserInfo> getEntities() throws FileNotFoundException {
         UserInfo userInfo = new UserInfo();
 //        CloseableHttpClient client = HttpClients.createDefault();
+        TransactionStatus transactionStatus = TransactionAspectSupport.currentTransactionStatus();
         userInfo.setUserId("2a602121897");
         userInfo.setUserName("waldon" + LocalTime.now());
         try{
@@ -103,6 +111,15 @@ public class TestController {
         }
         long increNum = jedis.incr("redisIncreTest");
         return "当前增量：" + increNum;
+    }
+
+    @RequestMapping(value = "/entityParam", method = RequestMethod.GET)
+    public String entityParam() {
+        UserInfo userInfo = new UserInfo();
+        String jsonObject = JSONObject.toJSONString(userInfo);
+        userInfo.setUserId("2a602121897");
+        repository.updateTest(userInfo);
+        return "666";
     }
 
 }

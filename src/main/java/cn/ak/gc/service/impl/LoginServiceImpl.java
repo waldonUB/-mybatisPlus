@@ -7,6 +7,7 @@ import cn.ak.gc.service.LoginService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +17,8 @@ import java.io.*;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.transaction.interceptor.TransactionAspectSupport.currentTransactionStatus;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -39,16 +42,17 @@ public class LoginServiceImpl implements LoginService {
 //    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT)
     @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
     public void deleteLoginUser(UserInfo userInfo) throws FileNotFoundException {
+        TransactionStatus transactionStatus = TransactionAspectSupport.currentTransactionStatus();
+        boolean b = TransactionAspectSupport.currentTransactionStatus().isNewTransaction();
         JSONObject params = new JSONObject();
         if (userInfo != null) {
             try{
                 params.put("password", "1");
                 commonDAO.deleteWithParams("sys_login_user", params);
-                int i = 1/0;
+//                int i = 1/0;
             } catch (Exception e) {
-//                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             }
-
 //            InputStream inputStream = new FileInputStream("w");
             System.out.println();
         }
@@ -62,9 +66,12 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
 //    @Transactional(propagation = Propagation.REQUIRED)
-    @Transactional(rollbackFor = Exception.class)
-    public void updateUser(UserInfo userInfo) {
+//    @Transactional(rollbackFor = Exception.class)
+    public void updateUser(UserInfo userInfo) throws FileNotFoundException {
+        TransactionStatus transactionStatus = TransactionAspectSupport.currentTransactionStatus();
+        boolean b = TransactionAspectSupport.currentTransactionStatus().isNewTransaction();
         commonDAO.updateVO(userInfo);
+//        deleteLoginUser(userInfo);
     }
 
     @Override

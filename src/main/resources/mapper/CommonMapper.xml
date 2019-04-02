@@ -104,4 +104,7 @@
     <select id="getPageCount" resultType="java.lang.Integer">
         select count(*) from ${tableName}
     </select>
+    <update id="updateTest" parameterType="cn.ak.gc.domain.entities.UserInfo">
+        update sys_user set user_name = '666' where user_id = #{userInfo.userId}
+    </update>
 </mapper>

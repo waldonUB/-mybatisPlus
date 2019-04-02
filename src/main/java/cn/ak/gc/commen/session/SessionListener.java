@@ -16,18 +16,18 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import java.io.FileNotFoundException;
 
-@Service
+//@Service
 public class SessionListener implements HttpSessionListener, HttpSessionAttributeListener {
 
     @Autowired
     LoginServiceImpl loginService;
-    private static SessionListener sessionListener;
-
-    @PostConstruct
-    public void init() {
-        sessionListener = this;
-        sessionListener.loginService = this.loginService;
-    }
+//    private static SessionListener sessionListener;
+//
+//    @PostConstruct
+//    public void init() {
+//        sessionListener = this;
+//        sessionListener.loginService = this.loginService;
+//    }
 
     @Override
     public void sessionCreated(HttpSessionEvent httpSessionEvent) {
@@ -38,10 +38,13 @@ public class SessionListener implements HttpSessionListener, HttpSessionAttribut
     public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
         System.out.println("session销毁了");
         UserInfo userInfo = (UserInfo) httpSessionEvent.getSession().getAttribute("sessionKey");
-        try {
-            sessionListener.loginService.deleteLoginUser(userInfo);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if (userInfo != null) {
+            try {
+                loginService.deleteLoginUser(userInfo);
+//            sessionListener.loginService.deleteLoginUser(userInfo);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -11,7 +11,7 @@ public interface LoginService {
     void addLoginUser(UserInfo userInfo);
     void deleteLoginUser(UserInfo userInfo) throws FileNotFoundException;
     void addUser(UserInfo userInfo);
-    void updateUser(UserInfo userInfo);
+    void updateUser(UserInfo userInfo) throws FileNotFoundException;
     List<UserInfo> getLoginUsers();
     int deleteUser();
     List<UserInfo> getEntities(UserInfo userInfo);
