@@ -113,6 +113,9 @@ public class TestController {
         return "当前增量：" + increNum;
     }
 
+    /**
+     * 测试
+     * */
     @RequestMapping(value = "/entityParam", method = RequestMethod.GET)
     public String entityParam() {
         UserInfo userInfo = new UserInfo();
